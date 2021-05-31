@@ -8,25 +8,24 @@ from ya_weather.req_forecast import dump_request
 bp = Blueprint('weather', __name__)
 
 
-@bp.route('/')
-def index():
+def all_posts():
     db = get_db()
     posts = db.execute(
         'SELECT w.id, created, cit_1, cit_2, cit_3, cit_4, cit_5, temp_1, temp_2, temp_3, temp_4, temp_5, f_l_1, f_l_2, f_l_3, f_l_4, f_l_5, con_1, con_2, con_3, con_4, con_5, author_id, username'
         ' FROM weather w JOIN user u ON w.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
-    return render_template('index.html', posts=posts)
+    return posts
+
+
+@bp.route('/')
+def index():
+    return render_template('index.html', posts=all_posts())
 
 
 @bp.route('/<int:id>/download', methods=('GET', 'POST'))
 def download_csv(id):
-    db = get_db()
-    post = db.execute(
-        'SELECT w.id, created, cit_1, cit_2, cit_3, cit_4, cit_5, temp_1, temp_2, temp_3, temp_4, temp_5, f_l_1, f_l_2, f_l_3, f_l_4, f_l_5, con_1, con_2, con_3, con_4, con_5, author_id, username'
-        ' FROM weather w JOIN user u ON w.author_id = u.id'
-        ' ORDER BY created DESC'
-    ).fetchall()[id-1]
+    post = all_posts()[id - 1]
 
     csv = csv_maker(post)
     return Response(
