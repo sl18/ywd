@@ -12,7 +12,7 @@ bp = Blueprint('weather', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT w.id, condition, temperature, city, author_id, username'
+        'SELECT w.id, created, condition, temperature, city, author_id, username'
         ' FROM weather w JOIN user u ON w.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
