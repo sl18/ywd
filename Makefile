@@ -31,7 +31,11 @@ run:	# Start Python docker image
 		"cd /home/testuser/tt-yw/; \
 		 FLASK_RUN_HOST=0.0.0.0 FLASK_RUN_PORT=8000 \
 		 FLASK_ENV=development FLASK_DEBUG=0 \
-		 FLASK_APP=ya_weather/__init__.py python3 -m flask run --reload"
+		 FLASK_APP=ya_weather/__init__.py python3 -m flask init-db; \
+		 FLASK_RUN_HOST=0.0.0.0 FLASK_RUN_PORT=8000 \
+		 FLASK_ENV=development FLASK_DEBUG=0 \
+		 FLASK_APP=ya_weather/__init__.py python3 -m flask run"
+
 
 shell-root:          # Run an interactive shell as root
-	@docker run -it --rm -p 3000:3000 -u 0 $(IMAGE_DEV) /bin/bash
+	@docker run -it --rm -p 8000:8000 -u 0 $(IMAGE_NAME) /bin/bash
