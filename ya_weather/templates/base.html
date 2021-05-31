@@ -2,17 +2,18 @@
 <title>{% block title %}{% endblock %} - test task</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-  <h3>Test Task: Weather dumps from yandex weather</h3>
-  <ul>
-    {% if g.user %}
-      <li><span>Hello, {{ g.user['username'] }}</span>
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('auth.register') }}">Register</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
-  </ul>
+  <h3>Test Task: Weather dumps from Yandex for 5 highest population cities in Russia</h3>
 </nav>
+{% if g.user %}
+  <br>
+  <span>Hello, {{ g.user['username'] }}</span>
+  <a href="{{ url_for('auth.logout') }}">Log Out</a>
+{% else %}
+  <a href="{{ url_for('auth.register') }}">Register</a>
+  <a href="{{ url_for('auth.login') }}">Log In</a>
+{% endif %}
+</ul>
+
 <section class="content">
   <header>
     {% block header %}{% endblock %}

@@ -2,14 +2,20 @@
 
 {% block header %}
   <h1>{% block title %}Weather Dumps:{% endblock %}</h1>
-  {% if g.user %}
-    <form action="{{ url_for('weather.create') }}" method="post">
-      <input type="submit" name="upvote" value="Make actual Dump"/>
-    </form>
-  {% endif %}
 {% endblock %}
 
 {% block content %}
+
+  {% if g.user %}
+    <form action="{{ url_for('weather.create') }}" method="post">
+      <input type="submit" name="make_new_dump" value="Make actual Dump"/>
+    </form>
+  {% endif %}
+
+  <form action="{{ url_for('weather.refresh') }}" method="post">
+    <input type="submit" name="refresh" value="Refresh list"/>
+  </form>
+  
   {% for post in posts %}
     <article class="weather">
       <header>

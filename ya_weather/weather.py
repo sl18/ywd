@@ -1,4 +1,4 @@
-from flask import (Blueprint, g, render_template, Response)
+from flask import (Blueprint, g, render_template, Response, redirect)
 
 from ya_weather.auth import login_required
 from ya_weather.csv_maker import csv_maker
@@ -25,7 +25,7 @@ def index():
 
 @bp.route('/refresh', methods=('GET', 'POST'))
 def refresh():
-    return render_template('index.html', posts=all_posts())
+    return redirect('/')
 
 
 @bp.route('/<int:id>/download', methods=('GET', 'POST'))
