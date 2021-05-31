@@ -29,8 +29,6 @@ build:	# Build docker image $(IMAGE_NAME)
 run:	# Start Python docker image
 	@docker run -it --rm -p 8000:8000 $(IMAGE_NAME) /bin/bash -c \
 		"cd /home/testuser/tt-yw/; \
-		 FLASK_RUN_HOST=0.0.0.0 FLASK_RUN_PORT=8000 \
-		 FLASK_ENV=development FLASK_DEBUG=0 \
 		 FLASK_APP=ya_weather/__init__.py python3 -m flask init-db; \
 		 FLASK_RUN_HOST=0.0.0.0 FLASK_RUN_PORT=8000 \
 		 FLASK_ENV=development FLASK_DEBUG=0 \
