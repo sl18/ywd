@@ -1,4 +1,4 @@
-from flask import (Blueprint, g, redirect, render_template, Response)
+from flask import (Blueprint, g, render_template, Response)
 
 from ya_weather.auth import login_required
 from ya_weather.csv_maker import csv_maker
@@ -23,9 +23,15 @@ def index():
     return render_template('index.html', posts=all_posts())
 
 
+@bp.route('/refresh', methods=('GET', 'POST'))
+def refresh():
+    return render_template('index.html', posts=all_posts())
+
+
 @bp.route('/<int:id>/download', methods=('GET', 'POST'))
 def download_csv(id):
-    post = all_posts()[id - 1]
+    len_posts = len(all_posts())
+    post = all_posts()[len_posts - id]
 
     csv = csv_maker(post)
     return Response(
@@ -70,4 +76,13 @@ def create():
     )
     db.commit()
 
-    return redirect('/')
+    post = all_posts()[0]
+
+    csv = csv_maker(post)
+
+    # return redirect('/test_down')
+    return Response(
+        csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                     "attachment; filename=ya_weather_data.csv"})
