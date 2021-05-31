@@ -1,27 +1,67 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h2>{% block title %}Weather Dumps{% endblock %}</h2>
+  <h1>{% block title %}Weather Dumps:{% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href="http://yandex.ru">Create actual Dump</a>
-{#    <a class="action" href="{{ url_for('dump.create') }}">Create actual Dump</a>#}
+    <form action="{{ url_for('weather.create') }}" method="post">
+      <input type="submit" name="upvote" value="Make actual Dump"/>
+    </form>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-  <h3>5 last dumps:</h3>
   {% for post in posts %}
     <article class="weather">
       <header>
         <div>
           <h1>{{ post['title'] }}</h1>
-          <div class="about">by {{ post['username'] }} on {{ post['created'] }}</div>
+          <div class="about">Dump #{{ post['id'] }} by <span
+              style="color: #b11050; font-weight: bolder">{{ post['username'] }}</span> on {{ post['created'] }}</div>
         </div>
       </header>
-      <br><span style="color: #257c11; font-weight: bold" class="city">{{ post['city'] }}</span> --
-      t: <span style="color: #a81990; font-weight: bold" class="temperature">{{ post['temperature'] }}</span>;
-      condition: <span style="color: #25b89b; font-weight: bold" class="condition">{{ post['condition'] }}</span>.<br>
-    <button>Download CSV</button></p>
+      <table style="width:100%">
+        <tr>
+          <th>City</th>
+          <th>t ℃</th>
+          <th>Feel like ℃</th>
+          <th>Condition</th>
+        </tr>
+        <tr>
+          <td>{{ post['cit_1'] }}</td>
+          <td>{{ post['temp_1'] }}</td>
+          <td>{{ post['f_l_1'] }}</td>
+          <td>{{ post['con_1'] }}</td>
+        </tr>
+        <tr>
+          <td>{{ post['cit_2'] }}</td>
+          <td>{{ post['temp_2'] }}</td>
+          <td>{{ post['f_l_2'] }}</td>
+          <td>{{ post['con_2'] }}</td>
+        </tr>
+        <tr>
+          <td>{{ post['cit_3'] }}</td>
+          <td>{{ post['temp_3'] }}</td>
+          <td>{{ post['f_l_3'] }}</td>
+          <td>{{ post['con_3'] }}</td>
+        </tr>
+        <tr>
+          <td>{{ post['cit_4'] }}</td>
+          <td>{{ post['temp_4'] }}</td>
+          <td>{{ post['f_l_4'] }}</td>
+          <td>{{ post['con_4'] }}</td>
+        <tr>
+          <td>{{ post['cit_5'] }}</td>
+          <td>{{ post['temp_5'] }}</td>
+          <td>{{ post['f_l_5'] }}</td>
+          <td>{{ post['con_5'] }}</td>
+        </tr>
+      </table>
+      {% if g.user %}
+        <form action="{{ url_for('weather.download_csv', id=post['id']) }}" method="post">
+          <input class="warning" type="submit" value="Get dump #{{ post['id'] }} (CSV)">
+        </form>
+        {#        <a class="action" href="{{ url_for('weather.download_csv', id=post['id']) }}">Download</a>#}
+      {% endif %}
 
     </article>
     {% if not loop.last %}
