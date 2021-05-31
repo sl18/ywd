@@ -20,7 +20,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/')
+    @app.route('/hello')
     def hello():
         return '*** Hello, World! ***'
 
@@ -29,5 +29,10 @@ def create_app(test_config=None):
 
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import weather
+    app.register_blueprint(weather.bp)
+    app.add_url_rule('/', endpoint='index')
+
 
     return app
