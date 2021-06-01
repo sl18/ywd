@@ -92,3 +92,12 @@ def create():
         mimetype="text/csv",
         headers={"Content-disposition":
                      "attachment; filename=ya_weather_data.csv"})
+
+
+@bp.route('/<int:id>/delete', methods=('POST',))
+@login_required
+def delete(id):
+    db = get_db()
+    db.execute('DELETE FROM weather WHERE id = ?', (id,))
+    db.commit()
+    return redirect('/')
