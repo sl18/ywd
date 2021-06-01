@@ -29,12 +29,12 @@ def index():
     return render_template('index.html', posts=posts, actual=actual)
 
 
-@bp.route('/refresh', methods=('GET', 'POST'))
+@bp.route('/refresh', methods=('POST',))
 def refresh():
     return redirect('/')
 
 
-@bp.route('/<int:id>/download', methods=('GET', 'POST'))
+@bp.route('/<int:id>/download', methods=('POST',))
 def download_csv(id):
     len_posts = len(all_posts())
     post = all_posts()[len_posts - id]
@@ -47,7 +47,7 @@ def download_csv(id):
                      "attachment; filename=ya_weather_data.csv"})
 
 
-@bp.route('/create', methods=('GET', 'POST'))
+@bp.route('/create', methods=('POST',))
 @login_required
 def create():
     dump = dump_request()
@@ -86,7 +86,6 @@ def create():
 
     csv = csv_maker(post)
 
-    # return redirect('/test_down')
     return Response(
         csv,
         mimetype="text/csv",
