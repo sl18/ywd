@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block content %}
+  {% if actual['cit_1'] %}
   <div style="font-size:12px; font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace ">In {{ actual['cit_1'] }} t{{ actual['temp_1'] }}℃(l.f.:{{ actual['f_l_1'] }}℃) {{ actual['con_1'] }}</div>
   <div style="font-size:12px; font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace ">In {{ actual['cit_2'] }} t{{ actual['temp_2'] }}℃(l.f.:{{ actual['f_l_2'] }}℃) {{ actual['con_2'] }}</div>
   <div style="font-size:12px; font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace ">In {{ actual['cit_3'] }} t{{ actual['temp_3'] }}℃(l.f.:{{ actual['f_l_3'] }}℃) {{ actual['con_3'] }}</div>
   <div style="font-size:12px; font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace ">In {{ actual['cit_4'] }} t{{ actual['temp_4'] }}℃(l.f.:{{ actual['f_l_4'] }}℃) {{ actual['con_4'] }}</div>
   <div style="font-size:12px; font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace ">In {{ actual['cit_5'] }} t{{ actual['temp_5'] }}℃(l.f.:{{ actual['f_l_5'] }}℃) {{ actual['con_5'] }}</div>
+  {% endif %}
   {% if g.user %}
     <form action="{{ url_for('weather.create') }}" method="post">
       <input type="submit" name="make_new_dump" value="Make Actual Dump"/>

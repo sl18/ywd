@@ -20,7 +20,13 @@ def all_posts():
 
 @bp.route('/')
 def index():
-    return render_template('index.html', posts=all_posts(), actual=all_posts()[0])
+    posts = []
+    actual = []
+    if all_posts():
+        posts = all_posts()
+        actual = all_posts()[0]
+
+    return render_template('index.html', posts=posts, actual=actual)
 
 
 @bp.route('/refresh', methods=('GET', 'POST'))
