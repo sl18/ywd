@@ -6,7 +6,7 @@
 </nav>
 {% if g.user %}
   <br>
-  <span>Hello, {{ g.user['username'] }}</span>
+  <span style="padding: 1rem">Hello, {{ g.user['username'] }}</span>
   <a href="{{ url_for('auth.logout') }}">Log Out</a>
 {% else %}
   <a href="{{ url_for('auth.register') }}">Register</a>
