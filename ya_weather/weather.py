@@ -9,13 +9,22 @@ bp = Blueprint('weather', __name__)
 
 
 def all_posts():
-    db = get_db()
-    posts = db.execute(
+    posts = get_db().execute(
         'SELECT w.id, created, cit_1, cit_2, cit_3, cit_4, cit_5, temp_1, temp_2, temp_3, temp_4, temp_5, f_l_1, f_l_2, f_l_3, f_l_4, f_l_5, con_1, con_2, con_3, con_4, con_5, author_id, username'
         ' FROM weather w JOIN user u ON w.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
     return posts
+
+
+def post(id):
+    post = get_db().execute(
+        'SELECT w.id, created, cit_1, cit_2, cit_3, cit_4, cit_5, temp_1, temp_2, temp_3, temp_4, temp_5, f_l_1, f_l_2, f_l_3, f_l_4, f_l_5, con_1, con_2, con_3, con_4, con_5, author_id, username'
+        ' FROM weather w JOIN user u ON w.author_id = u.id'
+        ' WHERE w.id = ?',
+        (id,)
+    ).fetchone()
+    return post
 
 
 @bp.route('/')
@@ -36,15 +45,12 @@ def refresh():
 
 @bp.route('/<int:id>/download', methods=('POST',))
 def download_csv(id):
-    len_posts = len(all_posts())
-    post = all_posts()[len_posts - id]
-
-    csv = csv_maker(post)
+    csv = csv_maker(post(id))
     return Response(
         csv,
         mimetype="text/csv",
         headers={"Content-disposition":
-                     "attachment; filename=ya_weather_data.csv"})
+                     "attachment; filename=ya_weather_dump.csv"})
 
 
 @bp.route('/create', methods=('POST',))
@@ -90,7 +96,7 @@ def create():
         csv,
         mimetype="text/csv",
         headers={"Content-disposition":
-                     "attachment; filename=ya_weather_data.csv"})
+                     "attachment; filename=ya_weather_dump.csv"})
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
